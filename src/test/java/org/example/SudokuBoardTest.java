@@ -11,11 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class SudokuBoardTest {
 
     private BackTrackingSudokuSolver backTrackSolver = new BackTrackingSudokuSolver();
-    private SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+
 
     @Test
     public void duplicateTest()
     {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
 
         List<Integer> testList = new ArrayList<>();
         for(int i = 1; i < 10; i++)
@@ -23,7 +24,7 @@ class SudokuBoardTest {
             testList.add(i);
         }
 
-        mySudokuBoard.solveGame();
+        assertTrue(mySudokuBoard.solveGame());
 
         // check rows
         for(int i = 0; i < 9; i++)
@@ -78,24 +79,25 @@ class SudokuBoardTest {
     @Test
     public void subsequentBoardsTest()
     {
-
-        mySudokuBoard.solveGame();
+        SudokuBoard mySudokuBoardOne = new SudokuBoard(backTrackSolver);
+        assertTrue(mySudokuBoardOne.solveGame());
         List<Integer> firstCall = new ArrayList<>();
         for(int i = 0; i < 9; i++)
         {
             for(int j = 0; j < 9; j++)
             {
-                firstCall.add(mySudokuBoard.getPoint(i,j));
+                firstCall.add(mySudokuBoardOne.getPoint(i,j));
             }
         }
 
-        mySudokuBoard.solveGame();
+        SudokuBoard mySudokuBoardTwo = new SudokuBoard(backTrackSolver);
+        assertTrue(mySudokuBoardTwo.solveGame());
         List<Integer> secondCall = new ArrayList<>();
         for(int i = 0; i < 9; i++)
         {
             for(int j = 0; j < 9; j++)
             {
-                secondCall.add(mySudokuBoard.getPoint(i,j));
+                secondCall.add(mySudokuBoardTwo.getPoint(i,j));
             }
         }
 
@@ -109,6 +111,64 @@ class SudokuBoardTest {
         }
 
         assertNotEquals(81,sameNumCounter);
+    }
+
+    @Test
+    public void getterTests()
+    {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+
+        assertTrue(mySudokuBoard.solveGame());
+
+        for (int i = 0; i < 9; i++) {
+
+            // check row
+            SudokuRow currentRow = mySudokuBoard.getRow(i);
+
+            for (int j = 0; j < 9; j++) {
+                assertEquals(mySudokuBoard.getPoint(i,j),currentRow.getArrayPoint(j).getFieldValue());
+            }
+
+            // check column
+            SudokuColumn currentColumn = mySudokuBoard.getColumn(i);
+
+            for (int j = 0; j < 9; j++) {
+                assertEquals(mySudokuBoard.getPoint(j,i),currentColumn.getArrayPoint(j).getFieldValue());
+            }
+
+        }
+
+        // check box
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                SudokuBox currentBox = mySudokuBoard.getBox(i,j);
+
+                int counter = 0;
+                for (int k = 0; k < 3; k++) {
+                    for (int l = 0; l < 3; l++) {
+                        assertEquals(mySudokuBoard.getPoint(i * 3 + k, j * 3 + l), currentBox.getArrayPoint(counter).getFieldValue());
+                        counter++;
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void checkTest()
+    {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                SudokuField newField = new SudokuField();
+                newField.setFieldValue(1);
+                mySudokuBoard.setPoint(i,j,newField.getFieldValue());
+            }
+        }
+
+        assertFalse(mySudokuBoard.solveGame());
     }
 
 }
