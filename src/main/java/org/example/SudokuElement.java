@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class SudokuElement {
 
-    protected SudokuField[] fieldArray;
+    protected ArrayList<SudokuField> fieldArray;
 
     public SudokuElement() {
 
-        fieldArray = new SudokuField[9];
+        fieldArray = new ArrayList<SudokuField>();
 
         for (int i = 0; i < 9; i++) {
             SudokuField newField = new SudokuField();
             newField.setFieldValue(0);
-            fieldArray[i] = newField;
+            fieldArray.add(newField);
         }
     }
 
@@ -22,7 +22,7 @@ public class SudokuElement {
         int counter = 0;
 
         for (int i = 0; i < 9; i++) {
-            verifyingArray[counter] = this.fieldArray[i].getFieldValue();
+            verifyingArray[counter] = this.fieldArray.get(i).getFieldValue();
 
             for (int j = 0; j < i; j++) {
                 if (verifyingArray[j] == verifyingArray[counter]) {
@@ -38,11 +38,13 @@ public class SudokuElement {
     }
 
     public void setArrayPoint(int x, int value) {
-        fieldArray[x].setFieldValue(value);
+        SudokuField newField = new SudokuField();
+        newField.setFieldValue(value);
+        fieldArray.set(x,newField);
     }
 
     public SudokuField getArrayPoint(int x) {
-        return fieldArray[x];
+        return fieldArray.get(x);
     }
 
 }

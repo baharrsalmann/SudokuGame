@@ -12,7 +12,7 @@ class SudokuElementTest {
     public void getAndSetTest() {
         for (int i = 0; i < 9; i++) {
             myElement.setArrayPoint(i,i * 2);
-            assertEquals(myElement.fieldArray[i].getFieldValue(), i * 2);
+            assertEquals(myElement.fieldArray.get(i).getFieldValue(), i * 2);
 
             int getValue = myElement.getArrayPoint(i).getFieldValue();
             assertEquals(i * 2, getValue);
