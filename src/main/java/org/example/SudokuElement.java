@@ -1,19 +1,23 @@
 package org.example;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SudokuElement {
 
-    protected ArrayList<SudokuField> fieldArray;
+    protected List<SudokuField> fieldList;
 
     public SudokuElement() {
 
-        fieldArray = new ArrayList<SudokuField>();
+        fieldList = Arrays.asList(new SudokuField[9]);
 
         for (int i = 0; i < 9; i++) {
             SudokuField newField = new SudokuField();
             newField.setFieldValue(0);
-            fieldArray.add(newField);
+            fieldList.set(i,newField);
         }
     }
 
@@ -22,7 +26,7 @@ public class SudokuElement {
         int counter = 0;
 
         for (int i = 0; i < 9; i++) {
-            verifyingArray[counter] = this.fieldArray.get(i).getFieldValue();
+            verifyingArray[counter] = this.fieldList.get(i).getFieldValue();
 
             for (int j = 0; j < i; j++) {
                 if (verifyingArray[j] == verifyingArray[counter]) {
@@ -40,11 +44,40 @@ public class SudokuElement {
     public void setArrayPoint(int x, int value) {
         SudokuField newField = new SudokuField();
         newField.setFieldValue(value);
-        fieldArray.set(x,newField);
+        fieldList.set(x,newField);
     }
 
     public SudokuField getArrayPoint(int x) {
-        return fieldArray.get(x);
+        return fieldList.get(x);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            sb.append(this.fieldList.get(i).toString());
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof SudokuElement)) {
+            return false;
+        }
+
+        SudokuElement otherElement = (SudokuElement) obj;
+
+        return new EqualsBuilder().append(this.fieldList,otherElement.fieldList).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.fieldList).toHashCode();
+    }
 }

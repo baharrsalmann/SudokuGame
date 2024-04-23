@@ -14,6 +14,52 @@ class SudokuBoardTest {
 
 
     @Test
+    public void stringTest() {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+        assertEquals("0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 \n",mySudokuBoard.toString());
+    }
+
+    @Test
+    public void equalsTest() {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+        SudokuBoard otherBoard = new SudokuBoard(backTrackSolver);
+
+        mySudokuBoard.setPoint(2,2,5);
+        otherBoard.setPoint(2,2,5);
+
+        assertTrue(mySudokuBoard.equals(otherBoard));
+
+        SudokuBoard sameBoard = mySudokuBoard;
+        assertTrue(mySudokuBoard.equals(sameBoard));
+
+        SudokuElement anotherType = new SudokuElement();
+        assertFalse(mySudokuBoard.equals(anotherType));
+    }
+
+    @Test
+    public void hashCodeTest() {
+        SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
+        SudokuBoard otherBoard = new SudokuBoard(backTrackSolver);
+
+        mySudokuBoard.setPoint(3,3,9);
+        otherBoard.setPoint(3,3,9);
+        int myHashCode = mySudokuBoard.hashCode();
+        int otherHashCode = otherBoard.hashCode();
+
+        assertEquals(myHashCode,otherHashCode);
+
+        // test different objects
+        otherBoard.setPoint(3,3,5);
+        otherHashCode = otherBoard.hashCode();
+        if(myHashCode == otherHashCode) {
+            assertFalse(mySudokuBoard.equals(otherBoard));
+        }
+        else {
+            assertNotEquals(myHashCode,otherHashCode);
+        }
+    }
+
+    @Test
     public void duplicateTest()
     {
         SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);

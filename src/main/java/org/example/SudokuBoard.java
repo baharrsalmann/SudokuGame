@@ -1,25 +1,27 @@
 package org.example;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class SudokuBoard {
 
-    //private final SudokuField[][] board;
-    private final ArrayList<SudokuField[]> board;
+    private final ArrayList<List<SudokuField>> board;
     private final SudokuSolver mySolver;
 
     public SudokuBoard(SudokuSolver solver) {
 
-        //this.board = new SudokuField[9][9];
-
-        this.board = new ArrayList<SudokuField[]>();
+        this.board = new ArrayList<List<SudokuField>>();
 
         for (int i = 0; i < 9; i++) {
-            SudokuField[] newFieldArray = new SudokuField[9];
+            List<SudokuField> newFieldArray = Arrays.asList(new SudokuField[9]);
             for (int j = 0; j < 9; j++) {
                 SudokuField newField = new SudokuField();
                 newField.setFieldValue(0);
-                newFieldArray[j] = newField;
+                newFieldArray.set(j,newField);
             }
 
             this.board.add(newFieldArray);
@@ -29,29 +31,24 @@ public class SudokuBoard {
     }
 
     public boolean solveGame() {
-        //BackTrackingSudokuSolver mySolver = new BackTrackingSudokuSolver();
-
         mySolver.solve(this);
 
         return checkBoard();
     }
 
     public int getPoint(int row, int column) {
-        return this.board.get(row)[column].getFieldValue();
-        //return this.board[row][column].getFieldValue();
+        return this.board.get(row).get(column).getFieldValue();
     }
 
     public void setPoint(int row, int column, int value) {
-        this.board.get(row)[column].setFieldValue(value);
-        //this.board[row][column].setFieldValue(value);
+        this.board.get(row).get(column).setFieldValue(value);
     }
 
     public SudokuRow getRow(int x) {
         SudokuRow currentRow = new SudokuRow();
 
         for (int i = 0; i < 9; i++) {
-            currentRow.setArrayPoint(i,board.get(x)[i].getFieldValue());
-            //currentRow.setArrayPoint(i,board[x][i].getFieldValue());
+            currentRow.setArrayPoint(i,board.get(x).get(i).getFieldValue());
         }
 
         return currentRow;
@@ -61,8 +58,7 @@ public class SudokuBoard {
         SudokuColumn currentColumn = new SudokuColumn();
 
         for (int i = 0; i < 9; i++) {
-            currentColumn.setArrayPoint(i,board.get(i)[x].getFieldValue());
-            //currentColumn.setArrayPoint(i,board[i][x].getFieldValue());
+            currentColumn.setArrayPoint(i,board.get(i).get(x).getFieldValue());
         }
 
         return currentColumn;
@@ -74,8 +70,7 @@ public class SudokuBoard {
         int counter = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                currentBox.setArrayPoint(counter,board.get(x * 3 + i)[y * 3 + j].getFieldValue());
-                //currentBox.setArrayPoint(counter,board[x * 3 + i][y * 3 + j].getFieldValue());
+                currentBox.setArrayPoint(counter,board.get(x * 3 + i).get(y * 3 + j).getFieldValue());
                 counter++;
             }
         }
@@ -114,5 +109,46 @@ public class SudokuBoard {
         }
 
         return currentState;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                sb.append(this.board.get(i).get(j).toString());
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof SudokuBoard)) {
+            return false;
+        }
+
+        SudokuBoard otherBoard = (SudokuBoard) obj;
+
+        return new EqualsBuilder().append(this.board,otherBoard.board).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder builder = new HashCodeBuilder();
+        for (List<SudokuField> innerList : this.board) {
+            int innerListHashCode = new HashCodeBuilder().append(innerList).toHashCode();
+            builder.append(innerListHashCode);
+        }
+
+        return builder.toHashCode();
+
+        //return new HashCodeBuilder().append(this.board).toHashCode();
     }
 }
