@@ -1,6 +1,9 @@
 package org.example;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import javax.annotation.processing.SupportedOptions;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -94,6 +97,22 @@ class SudokuElementTest {
         }
         else {
             assertNotEquals(myHashCode,otherHashCode);
+        }
+    }
+
+    @Test
+    public void cloneTest(){
+
+        SudokuElement newSudokuElement = new SudokuElement();
+        newSudokuElement.setArrayPoint(2, 8);
+
+        try {
+            SudokuElement cloneElement = newSudokuElement.clone();
+            newSudokuElement.setArrayPoint(2, 5);
+            assertNotEquals(newSudokuElement.getArrayPoint(2),cloneElement.getArrayPoint(2));
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuBoard {
+public class SudokuBoard implements Cloneable {
 
-    private final ArrayList<List<SudokuField>> board;
+    private ArrayList<List<SudokuField>> board;
     private final SudokuSolver mySolver;
 
     public SudokuBoard(SudokuSolver solver) {
@@ -150,5 +150,23 @@ public class SudokuBoard {
         return builder.toHashCode();
 
         //return new HashCodeBuilder().append(this.board).toHashCode();
+    }
+
+    @Override
+    public SudokuBoard clone() throws CloneNotSupportedException {
+        SudokuBoard clone = (SudokuBoard) super.clone();
+        ArrayList<List<SudokuField>> newBoard = new ArrayList<List<SudokuField>>();
+
+        for (int i = 0; i < 9; i++) {
+            List newFieldArray = new ArrayList<SudokuField>();
+
+            for (int j = 0; j < 9; j++) {
+                SudokuField current = this.board.get(i).get(j).clone();
+                newFieldArray.add(j,current);
+            }
+            newBoard.add(newFieldArray);
+        }
+        clone.board = newBoard;
+        return clone;
     }
 }

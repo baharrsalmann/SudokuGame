@@ -59,4 +59,30 @@ class SudokuFieldTest {
         }
     }
 
+    @Test
+    public void cloneTest() {
+        SudokuField newSudokuField = new SudokuField();
+        newSudokuField.setFieldValue(7);
+
+        try {
+            SudokuField cloneField = newSudokuField.clone();
+            assertEquals(newSudokuField.getFieldValue(),cloneField.getFieldValue());
+            cloneField.setFieldValue(5);
+            assertNotEquals(newSudokuField,cloneField);
+        }
+        catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+    }
+    @Test
+    public void CompareTest() {
+        SudokuField firstField = new SudokuField();
+        firstField.setFieldValue(4);
+        SudokuField secondField = new SudokuField();
+        secondField.setFieldValue(4);
+        assertEquals(0,firstField.compareTo(secondField));
+
+        assertThrows(NullPointerException.class, () -> {firstField.compareTo(null);});
+    }
 }

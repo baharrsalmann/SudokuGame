@@ -3,7 +3,7 @@ package org.example;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class SudokuField {
+public class SudokuField implements Cloneable, Comparable<SudokuField> {
     private int value;
 
     public int getFieldValue() {
@@ -40,5 +40,20 @@ public class SudokuField {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.value).toHashCode();
+    }
+
+    @Override
+    public SudokuField clone() throws CloneNotSupportedException {
+        return (SudokuField) super.clone();
+    }
+
+    @Override
+    public int compareTo(SudokuField o) {
+
+        if (o == null) {
+            throw new NullPointerException();
+        }
+
+        return Integer.compare(this.getFieldValue(),o.getFieldValue());
     }
 }

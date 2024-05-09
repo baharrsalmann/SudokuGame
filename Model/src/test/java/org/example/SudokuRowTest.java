@@ -23,5 +23,20 @@ class SudokuRowTest {
             assertEquals((counter == 45), mySudokuRow.verifyRow());
         }
     }
+    @Test
+    public void cloneTest(){
+
+        SudokuRow newSudokuRow = new SudokuRow();
+        newSudokuRow.setArrayPoint(2, 8);
+
+        try {
+            SudokuRow cloneElement = newSudokuRow.clone();
+            newSudokuRow.setArrayPoint(2, 5);
+            assertNotEquals(newSudokuRow.getArrayPoint(2),cloneElement.getArrayPoint(2));
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

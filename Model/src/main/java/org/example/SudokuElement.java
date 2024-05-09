@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuElement {
+public class SudokuElement implements Cloneable {
 
     protected List<SudokuField> fieldList;
 
@@ -80,4 +80,20 @@ public class SudokuElement {
     public int hashCode() {
         return new HashCodeBuilder().append(this.fieldList).toHashCode();
     }
+
+    @Override
+    public SudokuElement clone() throws CloneNotSupportedException {
+        SudokuElement clone = (SudokuElement) super.clone();
+        SudokuField[] copyArray = new SudokuField[9];
+        clone.fieldList = Arrays.asList(copyArray);
+
+        for (int i = 0; i < 9; i++) {
+            SudokuField current = new SudokuField();
+            int currentNum = this.fieldList.get(i).getFieldValue();
+            current.setFieldValue(currentNum);
+            clone.fieldList.set(i,current);
+        }
+        return clone;
+    }
 }
+

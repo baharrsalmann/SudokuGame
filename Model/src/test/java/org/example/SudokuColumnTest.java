@@ -23,4 +23,19 @@ class SudokuColumnTest {
         }
     }
 
+    @Test
+    public void cloneTest(){
+
+        SudokuColumn newSudokuColumn = new SudokuColumn();
+        newSudokuColumn.setArrayPoint(2, 8);
+
+        try {
+            SudokuElement cloneElement = newSudokuColumn.clone();
+            newSudokuColumn.setArrayPoint(2, 5);
+            assertNotEquals(newSudokuColumn.getArrayPoint(2),cloneElement.getArrayPoint(2));
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -26,4 +26,19 @@ class SudokuBoxTest {
         }
     }
 
+    @Test
+    public void cloneTest(){
+
+        SudokuBox newSudokuBox = new SudokuBox();
+        newSudokuBox.setArrayPoint(2, 8);
+
+        try {
+            SudokuBox cloneElement = newSudokuBox.clone();
+            newSudokuBox.setArrayPoint(2, 5);
+            assertNotEquals(newSudokuBox.getArrayPoint(2),cloneElement.getArrayPoint(2));
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

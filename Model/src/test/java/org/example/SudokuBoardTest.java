@@ -217,4 +217,20 @@ class SudokuBoardTest {
         assertFalse(mySudokuBoard.solveGame());
     }
 
+    @Test
+    public void cloneTest() {
+        SudokuBoard newBoard = new SudokuBoard(backTrackSolver);
+        newBoard.solveGame();
+
+        try {
+            SudokuBoard copyBoard = newBoard.clone();
+            assertNotSame(newBoard,copyBoard);
+            copyBoard.setPoint(1,1,0);
+            assertNotEquals(newBoard,copyBoard);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
