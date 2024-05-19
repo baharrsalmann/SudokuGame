@@ -1,13 +1,15 @@
 package org.example;
 
+import javafx.beans.property.IntegerProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuBoard implements Cloneable {
+public class SudokuBoard implements Cloneable, Serializable {
 
     private ArrayList<List<SudokuField>> board;
     private final SudokuSolver mySolver;
@@ -78,7 +80,7 @@ public class SudokuBoard implements Cloneable {
         return currentBox;
     }
 
-    private boolean checkBoard() {
+    public boolean checkBoard() {
 
         boolean currentState = true;
 
@@ -110,6 +112,7 @@ public class SudokuBoard implements Cloneable {
 
         return currentState;
     }
+
 
     @Override
     public String toString() {
@@ -169,4 +172,5 @@ public class SudokuBoard implements Cloneable {
         clone.board = newBoard;
         return clone;
     }
+
 }

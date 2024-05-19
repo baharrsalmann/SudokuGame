@@ -1,10 +1,11 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BackTrackingSudokuSolver implements SudokuSolver {
+public class BackTrackingSudokuSolver implements SudokuSolver, Serializable {
 
     @Override
     public void solve(SudokuBoard mySudokuBoard) {

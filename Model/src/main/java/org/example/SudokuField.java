@@ -3,7 +3,9 @@ package org.example;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class SudokuField implements Cloneable, Comparable<SudokuField> {
+import java.io.Serializable;
+
+public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
 
     public int getFieldValue() {

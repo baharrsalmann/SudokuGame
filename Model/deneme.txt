@@ -7,3 +7,6 @@
 0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0
+
+
+//object input output streamle yap, bu fileı olusturmana gerek yok.

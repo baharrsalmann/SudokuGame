@@ -19,25 +19,15 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
     @Override
     public SudokuBoard read(String name) {
         String filePath = directoryPath + "\\" + name + ".txt";
-        int rowCounter = 0;
-        BackTrackingSudokuSolver mySolver = new BackTrackingSudokuSolver();
-        SudokuBoard readBoard = new SudokuBoard(mySolver);
-        try {
-            this.fileReader = new FileReader(new File(filePath));
-            this.bufferedReader = new BufferedReader(fileReader);
-            String currentLine;
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                String[] parts = currentLine.split(",");
-                int columnCounter = 0;
+        SudokuBoard readBoard;
 
-                for (String part : parts) {
-                    int partValue = Integer.parseInt(part.trim());
-                    readBoard.setPoint(rowCounter, columnCounter, partValue);
-                    columnCounter++;
-                }
-                rowCounter++;
-            }
-            bufferedReader.close();
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            readBoard = (SudokuBoard) ois.readObject();
+            ois.close();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,20 +42,10 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
 
         try {
 
-            this.fileWriter = new FileWriter(filePath, false);
-            this.bufferedWriter = new BufferedWriter(fileWriter);
-            StringBuilder content = new StringBuilder();
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 8; j++) {
-                    content.append(obj.getPoint(i, j));
-                    content.append(",");
-                }
-                content.append(obj.getPoint(i,8));
-                content.append("\n");
-            }
-
-            bufferedWriter.write(content.toString());
-            bufferedWriter.close();
+            FileOutputStream fos = new FileOutputStream(filePath);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(obj);
+            oos.close();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -11,21 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileSudokuBoardDaoTest {
 
     @Test
-    void read() {
-
-        SudokuBoardDaoFactory myFactory = new SudokuBoardDaoFactory();
-        FileSudokuBoardDao myFileDao = (FileSudokuBoardDao) myFactory.getFileDao(".");
-
-        SudokuBoard testBoard = new SudokuBoard(new BackTrackingSudokuSolver());
-        SudokuBoard readBoard = myFileDao.read("deneme");
-
-        assertTrue(readBoard.equals(testBoard));
-
-        assertThrows(RuntimeException.class, () -> myFileDao.read("nonexist"));
-    }
-
-    @Test
-    void write() {
+    void writeAndRead() {
         SudokuBoardDaoFactory myFactory = new SudokuBoardDaoFactory();
         FileSudokuBoardDao myFileDao = (FileSudokuBoardDao) myFactory.getFileDao(".");
         SudokuBoard testBoard = new SudokuBoard(new BackTrackingSudokuSolver());
@@ -33,6 +19,7 @@ class FileSudokuBoardDaoTest {
         SudokuBoard readBoard = myFileDao.read("writing");
 
         assertTrue(readBoard.equals(testBoard));
+        assertThrows(RuntimeException.class, () -> myFileDao.read("nonexist"));
     }
 
     @Test

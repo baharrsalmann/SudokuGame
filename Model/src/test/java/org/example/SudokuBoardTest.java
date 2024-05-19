@@ -225,6 +225,7 @@ class SudokuBoardTest {
         try {
             SudokuBoard copyBoard = newBoard.clone();
             assertNotSame(newBoard,copyBoard);
+            assertEquals(newBoard,copyBoard);
             copyBoard.setPoint(1,1,0);
             assertNotEquals(newBoard,copyBoard);
         }
