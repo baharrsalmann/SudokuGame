@@ -2,7 +2,7 @@ package com.example.myscreen;
 
 import java.util.ListResourceBundle;
 
-public class LangTurkish extends ListResourceBundle {
+public class Lang_tr extends ListResourceBundle {
 
     @Override
     protected Object[][] getContents() {

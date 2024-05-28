@@ -9,9 +9,13 @@ import javafx.scene.layout.GridPane;
 import javafx.util.StringConverter;
 import org.example.*;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class HelloController {
+
+    public static Locale locale = Locale.getDefault();
+
     @FXML
     private Label welcomeText;
     public Label authorLabel;
@@ -22,8 +26,8 @@ public class HelloController {
     public static SudokuBoard currentBoard;
     public static SudokuBoard copyBoard;
     private StringConverter<Integer> converter = new IntegerStringConverter();
-    public static ResourceBundle langProperty = ResourceBundle.getBundle("langEnglish");
-    public static ResourceBundle langBundle = ResourceBundle.getBundle("com.example.myscreen.LangEnglish");
+    public static ResourceBundle langProperty = ResourceBundle.getBundle("lang_" + Locale.getDefault().getLanguage());
+    public static ResourceBundle langBundle = ResourceBundle.getBundle("com.example.myscreen.Lang_" + Locale.getDefault().getLanguage());
     public Button easyButton;
     public Button mediumButton;
     public Button hardButton;
@@ -32,7 +36,7 @@ public class HelloController {
     public Button loadButton;
     public Button authorsButton;
     public Button languageButton;
-    public String currentLanguage = "EN";
+    public String currentLanguage = locale.getLanguage();
 
     @FXML
     protected void onHelloButtonClick() {
@@ -53,15 +57,19 @@ public class HelloController {
 
     @FXML
     public void changeLanguage() {
-        if (currentLanguage == "EN") {
-            langProperty = ResourceBundle.getBundle("langTurkish");
-            langBundle = ResourceBundle.getBundle("com.example.myscreen.LangTurkish");
-            currentLanguage = "TR";
+        if (currentLanguage == "en") {
+            locale = new Locale("tr","TR");
+            Locale.setDefault(locale);
+            langProperty = ResourceBundle.getBundle("lang_" + locale.getLanguage());
+            langBundle = ResourceBundle.getBundle("com.example.myscreen.Lang_" + locale.getLanguage());
+            currentLanguage = "tr";
         }
         else {
-            langProperty = ResourceBundle.getBundle("langEnglish");
-            langBundle = ResourceBundle.getBundle("com.example.myscreen.LangEnglish");
-            currentLanguage = "EN";
+            locale = new Locale("en","EN");
+            Locale.setDefault(locale);
+            langProperty = ResourceBundle.getBundle("lang_" + locale.getLanguage());
+            langBundle = ResourceBundle.getBundle("com.example.myscreen.Lang_" + locale.getLanguage());
+            currentLanguage = "en";
         }
 
         easyButton.setText(langProperty.getString("easyField"));

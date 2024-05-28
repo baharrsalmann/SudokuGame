@@ -160,6 +160,14 @@ class SudokuBoardTest {
     }
 
     @Test
+    public void solverErrorTest() {
+        BackTrackingSudokuSolver solver = new BackTrackingSudokuSolver();
+        SudokuBoard sb = new SudokuBoard(solver);
+
+        assertThrows(SudokuBoardException.class, () -> {solver.solverError();});
+    }
+
+    @Test
     public void getterTests()
     {
         SudokuBoard mySudokuBoard = new SudokuBoard(backTrackSolver);
@@ -230,7 +238,7 @@ class SudokuBoardTest {
             assertNotEquals(newBoard,copyBoard);
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new SudokuBoardException(SudokuBoard.getLanguageVersion().getString("cloneError"),e);
         }
     }
 

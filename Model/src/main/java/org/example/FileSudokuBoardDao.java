@@ -1,8 +1,13 @@
 package org.example;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Serializable {
 
@@ -11,13 +16,14 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
     public  BufferedWriter bufferedWriter;
     public FileReader fileReader;
     public BufferedReader bufferedReader;
+    private transient Logger logger = LogManager.getLogger(FileSudokuBoardDao.class);
 
     public FileSudokuBoardDao(String directoryPath) {
         this.directoryPath = directoryPath;
     }
 
     @Override
-    public SudokuBoard read(String name) {
+    public SudokuBoard read(String name) throws DaoErrorException {
         String filePath = directoryPath + "\\" + name + ".txt";
         SudokuBoard readBoard;
 
@@ -27,9 +33,11 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
 
             readBoard = (SudokuBoard) ois.readObject();
             ois.close();
+            logger.info(SudokuBoard.getLanguageVersion().getString("readSuccess"));
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.info(e.getMessage());
+            throw new DaoErrorException(SudokuBoard.getLanguageVersion().getString("readError"),e);
         }
 
         return readBoard;
@@ -37,7 +45,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
     }
 
     @Override
-    public void write(String name, SudokuBoard obj) {
+    public void write(String name, SudokuBoard obj) throws DaoErrorException {
         String filePath = directoryPath + "\\" + name + ".txt";
 
         try {
@@ -46,9 +54,11 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(obj);
             oos.close();
+            logger.info(SudokuBoard.getLanguageVersion().getString("writeSuccess"));
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.info(e.getMessage());
+            throw new DaoErrorException(SudokuBoard.getLanguageVersion().getString("writeError"),e);
         }
 
     }
@@ -85,6 +95,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable, Seri
             fileReader.close();
         }
 
+        logger.info(SudokuBoard.getLanguageVersion().getString("closeSuccess"));
 
     }
 }

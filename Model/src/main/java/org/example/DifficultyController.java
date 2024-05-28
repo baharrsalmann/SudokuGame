@@ -1,7 +1,5 @@
 package org.example;
 
-import java.util.Random;
-
 public class DifficultyController {
     public DiffLevel currentLevel;
 

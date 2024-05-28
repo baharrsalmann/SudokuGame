@@ -140,4 +140,8 @@ public class BackTrackingSudokuSolver implements SudokuSolver, Serializable {
 
         return true;
     }
+
+    public Object solverError() throws SudokuBoardException {
+        throw new SudokuBoardException(SudokuBoard.getLanguageVersion().getString("solverError"), new Error());
+    }
 }

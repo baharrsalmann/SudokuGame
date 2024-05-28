@@ -112,8 +112,9 @@ class SudokuElementTest {
             assertNotEquals(newSudokuElement.getArrayPoint(2),cloneElement.getArrayPoint(2));
         }
         catch (Exception e){
-            throw new RuntimeException(e);
+            throw new SudokuBoardException(SudokuBoard.getLanguageVersion().getString("cloneError"),e);
         }
     }
+
 
 }

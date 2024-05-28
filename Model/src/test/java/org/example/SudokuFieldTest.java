@@ -71,18 +71,20 @@ class SudokuFieldTest {
             assertNotEquals(newSudokuField,cloneField);
         }
         catch (Exception e) {
-            throw new RuntimeException();
+            throw new SudokuBoardException(SudokuBoard.getLanguageVersion().getString("cloneError"),e);
         }
 
     }
+
     @Test
     public void CompareTest() {
+        SudokuBoard sb = new SudokuBoard(new BackTrackingSudokuSolver());
         SudokuField firstField = new SudokuField();
         firstField.setFieldValue(4);
         SudokuField secondField = new SudokuField();
         secondField.setFieldValue(4);
         assertEquals(0,firstField.compareTo(secondField));
 
-        assertThrows(NullPointerException.class, () -> {firstField.compareTo(null);});
+        assertThrows(NullPointerFieldException.class, () -> {firstField.compareTo(null);});
     }
 }

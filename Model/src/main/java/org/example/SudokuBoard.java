@@ -1,21 +1,21 @@
 package org.example;
 
-import javafx.beans.property.IntegerProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 
 public class SudokuBoard implements Cloneable, Serializable {
 
     private ArrayList<List<SudokuField>> board;
     private final SudokuSolver mySolver;
+    public static ResourceBundle languageVersion;
 
     public SudokuBoard(SudokuSolver solver) {
 
+        languageVersion = ResourceBundle.getBundle("resource_" + Locale.getDefault().getLanguage());
         this.board = new ArrayList<List<SudokuField>>();
 
         for (int i = 0; i < 9; i++) {
@@ -36,6 +36,10 @@ public class SudokuBoard implements Cloneable, Serializable {
         mySolver.solve(this);
 
         return checkBoard();
+    }
+
+    public static ResourceBundle getLanguageVersion() {
+        return languageVersion;
     }
 
     public int getPoint(int row, int column) {

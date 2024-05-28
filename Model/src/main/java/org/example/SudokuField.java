@@ -2,11 +2,14 @@ package org.example;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 
 public class SudokuField implements Serializable, Cloneable, Comparable<SudokuField> {
     private int value;
+        private transient Logger logger = LogManager.getLogger(SudokuField.class);
 
     public int getFieldValue() {
         return value;
@@ -50,12 +53,14 @@ public class SudokuField implements Serializable, Cloneable, Comparable<SudokuFi
     }
 
     @Override
-    public int compareTo(SudokuField o) {
+    public int compareTo(SudokuField o) throws  NullPointerFieldException {
 
-        if (o == null) {
-            throw new NullPointerException();
+        try {
+            logger.info(SudokuBoard.getLanguageVersion().getString("compareSuccess"));
+            return Integer.compare(this.getFieldValue(),o.getFieldValue());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new NullPointerFieldException(SudokuBoard.getLanguageVersion().getString("nullPtrError"),e);
         }
-
-        return Integer.compare(this.getFieldValue(),o.getFieldValue());
     }
 }

@@ -19,7 +19,7 @@ class FileSudokuBoardDaoTest {
         SudokuBoard readBoard = myFileDao.read("writing");
 
         assertTrue(readBoard.equals(testBoard));
-        assertThrows(RuntimeException.class, () -> myFileDao.read("nonexist"));
+        assertThrows(DaoErrorException.class, () -> myFileDao.read("nonexist"));
     }
 
     @Test
@@ -29,7 +29,7 @@ class FileSudokuBoardDaoTest {
 
         SudokuBoard testBoard = new SudokuBoard(new BackTrackingSudokuSolver());
         myFileDao.directoryPath = "error";
-        assertThrows(RuntimeException.class, () -> myFileDao.write("deneme",testBoard));
+        assertThrows(DaoErrorException.class, () -> myFileDao.write("deneme",testBoard));
     }
 
     @Test
@@ -75,7 +75,7 @@ class FileSudokuBoardDaoTest {
             myFileDao.close();
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DaoErrorException(SudokuBoard.getLanguageVersion().getString("closeError"),e);
         }
 
     }
