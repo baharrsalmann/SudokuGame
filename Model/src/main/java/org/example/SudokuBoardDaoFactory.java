@@ -6,4 +6,9 @@ public class SudokuBoardDaoFactory {
 
         return myDao;
     }
+
+    public Dao<SudokuBoard> getDatabaseDao() {
+        JdbcSudokuBoard jdbc = new JdbcSudokuBoard();
+        return jdbc;
+    }
 }
